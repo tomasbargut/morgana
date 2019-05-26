@@ -8,6 +8,7 @@ morgana = {editable = true,path = "."}
 
 [packages]
 click = "*"
+requests = "*"
 
 [requires]
 python_version = "3.7"

@@ -1,38 +1,60 @@
-#!/usr/bin/env python
+"""
+A collection of awesome scripts (inho)
+"""
 import os
-import click
+import shutil
 import collections
+import sqlite3
+import click
 
 APP_NAME = 'morgana'
 CONFIG_DIR = click.get_app_dir(APP_NAME)
-HISTORY_FILE = os.path.join(CONFIG_DIR,'runner_history')
+HISTORY_FILE = os.path.join(CONFIG_DIR, 'runner_history')
+DB_URI = os.path.join(CONFIG_DIR, 'database.db')
+
 
 @click.group()
 def cli():
-    pass
+    """
+    Main entry for the applicaction
+    """
+    pass # pylint: disable=unnecessary-pass
+
 
 @cli.command()
-def init():
+@click.option(
+        "-f", '--force', 'force', is_flag=True, help="Force the init process"
+)
+def init(force):
     """
     Initialize the application
     """
+    config_dir_exists = os.path.exists(CONFIG_DIR)
+    if config_dir_exists and force:
+        shutil.rmtree(CONFIG_DIR)
     if not os.path.exists(CONFIG_DIR):
         os.mkdir(CONFIG_DIR)
 
     if not os.path.exists(HISTORY_FILE):
-        click.open_file(HISTORY_FILE).close()
+        click.open_file(HISTORY_FILE, 'a').close()
+
+    sqlite3.connect(DB_URI).close()
+
+
 
 @cli.group()
 def runner():
     """
     Collection of scripts to help a runner composed by fzf, compgen and swaymsg
     """
-    pass
+    pass # pylint: disable=unnecessary-pass
+
 
 @runner.command()
 def sort():
     """
-    Take from the stdin the output of compgen and print to stdout the same but ordered by use
+    Take from the stdin the compgen output
+    and print it to stdout ordered by use
     """
     commands = click.get_text_stream('stdin').read().split('\n')
     with click.open_file(os.path.expanduser(HISTORY_FILE), 'r+') as file:
@@ -42,18 +64,18 @@ def sort():
     for command, _ in commands.most_common():
         click.echo(command)
 
+
 @runner.command()
 def store():
     """
-    Take from stdin the output of fzf | tail -n1, which is the name of a command.
-    Store it into the history file and print the name of the command again to be passed to swaymsg
+    Take from stdin a program name, store it into the history file
+    and print the name of the command again to be passed to swaymsg
     """
     command = click.get_text_stream('stdin').read()
     click.echo(command)
     with click.open_file(HISTORY_FILE, 'a') as file:
         file.write(command)
-    
+
 
 if __name__ == "__main__":
     cli()
-# vim: fileype=py
