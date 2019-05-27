@@ -18,7 +18,7 @@ def sort(ctx):
     Take from the stdin the compgen output
     and print it to stdout ordered by use
     """
-    HISTORY_FILE = ctx['HISTORY_FILE']
+    HISTORY_FILE = ctx.obj['HISTORY_FILE']
     commands = click.get_text_stream('stdin').read().split('\n')
     with click.open_file(os.path.expanduser(HISTORY_FILE), 'r+') as file:
         history = file.read().split('\n')
@@ -35,7 +35,7 @@ def store(ctx):
     Take from stdin a program name, store it into the history file
     and print the name of the command again to be passed to swaymsg
     """
-    HISTORY_FILE = ctx['HISTORY_FILE']
+    HISTORY_FILE = ctx.obj['HISTORY_FILE']
     command = click.get_text_stream('stdin').read()
     click.echo(command)
     with click.open_file(HISTORY_FILE, 'a') as file:
