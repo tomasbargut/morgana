@@ -4,11 +4,13 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-morgana = {editable = true,path = "."}
+pytest = "*"
 
 [packages]
 click = "*"
 requests = "*"
+morgana = {editable = true,path = "."}
+
 
 [requires]
 python_version = "3.7"

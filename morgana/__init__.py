@@ -8,21 +8,14 @@ import sqlite3
 import click
 import importlib
 
-COMMANDS = [
-    'backup','init','runner' #DJANGO LIKE
-]
+from morgana.config import COMMANDS
 
 @click.group()
-@click.pass_context
-def cli(ctx):
+def cli():
     """
     Main entry for the applicaction
     """
-    ctx.ensure_object(dict)
-    ctx.obj['APP_NAME'] = 'morgana'
-    ctx.obj['CONFIG_DIR'] = click.get_app_dir(ctx.obj['APP_NAME'])
-    ctx.obj['HISTORY_FILE'] = os.path.join(ctx.obj['CONFIG_DIR'], 'runner_history')
-    ctx.obj['DB_URI'] = os.path.join(ctx.obj['CONFIG_DIR'], 'database.db')
+    pass    
 
 for command in COMMANDS:
     module_name = f'morgana.{command}'
