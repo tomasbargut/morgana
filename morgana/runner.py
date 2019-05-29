@@ -23,7 +23,7 @@ def sort():
     """
     commands = click.get_text_stream('stdin').read().split('\n')
     with click.open_file(os.path.expanduser(HISTORY_FILE), 'r+') as file:
-        history = file.read()
+        history = file.read().split('\n')
     commands += history
     commands = collections.Counter(commands)
     for command, _ in commands.most_common():
@@ -37,6 +37,14 @@ def store():
     and print the name of the command again to be passed to swaymsg
     """
     command = click.get_text_stream('stdin').read()
+    command = command.strip()
     click.echo(command)
+    with click.open_file(HISTORY_FILE) as file:
+        history = file.read()
+    history = history.split('\n')
+    history_len = len(history)
+    if history_len >=50:
+        with click.open_file(HISTORY_FILE,'w') as file:
+            file.writelines(history[history_len-49:])
     with click.open_file(HISTORY_FILE, 'a') as file:
         file.write(f'\n{command}')
