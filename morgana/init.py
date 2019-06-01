@@ -25,5 +25,5 @@ def cli(force):
 
     if not os.path.exists(HISTORY_FILE):
         click.open_file(HISTORY_FILE, 'a').close()
-
+    
     sqlite3.connect(DB_URI).close()

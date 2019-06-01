@@ -45,6 +45,6 @@ def store():
     history_len = len(history)
     if history_len >=50:
         with click.open_file(HISTORY_FILE,'w') as file:
-            file.writelines(history[history_len-49:])
+            file.write("\n".join(history[history_len-49:]))
     with click.open_file(HISTORY_FILE, 'a') as file:
         file.write(f'\n{command}')

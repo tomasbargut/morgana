@@ -1,21 +1,23 @@
 """
 A collection of awesome scripts (inho)
 """
+import collections
+import importlib
 import os
 import shutil
-import collections
 import sqlite3
+
 import click
-import importlib
 
 from morgana.config import COMMANDS
+
 
 @click.group()
 def cli():
     """
     Main entry for the applicaction
     """
-    pass    
+    pass # pylint: disable= unnecessary-pass
 
 for command in COMMANDS:
     module_name = f'morgana.{command}'
