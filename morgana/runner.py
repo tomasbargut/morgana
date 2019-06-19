@@ -21,10 +21,11 @@ def sort():
     Take from the stdin the compgen output
     and print it to stdout ordered by use
     """
-    commands = click.get_text_stream('stdin').read().split('\n')
+    commands = list(set(click.get_text_stream('stdin').read().split('\n')))
     with click.open_file(os.path.expanduser(HISTORY_FILE), 'r+') as file:
         history = file.read().split('\n')
     commands += history
+
     commands = collections.Counter(commands)
     for command, _ in commands.most_common():
         click.echo(command)

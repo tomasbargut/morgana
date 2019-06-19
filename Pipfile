@@ -5,12 +5,14 @@ verify_ssl = true
 
 [dev-packages]
 pytest = "*"
+pylint = "*"
+autopep8 = "*"
+rope = "*"
 
 [packages]
 click = "*"
 requests = "*"
 morgana = {editable = true,path = "."}
-
 
 [requires]
 python_version = "3.7"
