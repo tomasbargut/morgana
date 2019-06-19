@@ -1,10 +1,15 @@
+"""
+Runner module
+"""
 import os
 
-import click
 import collections
+
+import click
 
 from morgana.config import (
     HISTORY_FILE
+    # TODO: HISTORY_FILE_LENGTH
 )
 
 @click.group(name="runner")
@@ -44,8 +49,8 @@ def store():
         history = file.read()
     history = history.split('\n')
     history_len = len(history)
-    if history_len >=50:
-        with click.open_file(HISTORY_FILE,'w') as file:
+    if history_len >= 50:
+        with click.open_file(HISTORY_FILE, 'w') as file:
             file.write("\n".join(history[history_len-49:]))
     with click.open_file(HISTORY_FILE, 'a') as file:
         file.write(f'\n{command}')
