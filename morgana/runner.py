@@ -8,8 +8,8 @@ import collections
 import click
 
 from morgana.config import (
-    HISTORY_FILE
-    # TODO: HISTORY_FILE_LENGTH
+    HISTORY_FILE,
+    Config
 )
 
 @click.group(name="runner")
@@ -42,6 +42,7 @@ def store():
     Take from stdin a program name, store it into the history file
     and print the name of the command again to be passed to swaymsg
     """
+    conf = Config()
     command = click.get_text_stream('stdin').read()
     command = command.strip()
     click.echo(command)
@@ -49,7 +50,7 @@ def store():
         history = file.read()
     history = history.split('\n')
     history_len = len(history)
-    if history_len >= 50:
+    if history_len >= conf['history_size']:
         with click.open_file(HISTORY_FILE, 'w') as file:
             file.write("\n".join(history[history_len-49:]))
     with click.open_file(HISTORY_FILE, 'a') as file:

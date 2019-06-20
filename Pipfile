@@ -13,6 +13,7 @@ rope = "*"
 click = "*"
 requests = "*"
 morgana = {editable = true,path = "."}
+# pyyaml = "*"  HACK: I have pyyaml installed by the pm
 
 [requires]
 python_version = "3.7"
