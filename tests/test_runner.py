@@ -27,8 +27,7 @@ def test_runner_store_offset(clean_runner, norm_conf):
 
 @pytest.fixture()
 def compgen():
-    result = subprocess.check_output(['/bin/bash', '-c', 'compgen -c'])
-    return result
+    return subprocess.check_output(['/bin/bash', '-c', 'compgen -c'])
 
 @pytest.mark.parametrize(
     'history,expected_result', [
